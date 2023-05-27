@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build: .
+    command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+    ports:
+      - "8123:8000"
+    volumes:
+      - ./:/app
+    working_dir: /app
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_USER: "alura"
+      MYSQL_PASSWORD: "senhalura"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: "escalabilidade"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
