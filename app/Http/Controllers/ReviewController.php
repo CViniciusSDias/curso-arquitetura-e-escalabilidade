@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
+use App\Mail\ReviewCreated;
 use App\Models\Review;
+use App\Models\Specialist;
+use Illuminate\Support\Facades\Mail;
 
 class ReviewController extends Controller
 {
@@ -19,12 +22,16 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(string $specialist, StoreReviewRequest $request)
+    public function store(Specialist $specialist, StoreReviewRequest $request)
     {
-        return response()->json(Review::create([
-            'specialist_id' => $specialist,
+        $review = Review::create([
+            'specialist_id' => $specialist->id,
             ...$request->safe()->all()
-        ]), 201);
+        ]);
+        $reviewCreatedEmail = new ReviewCreated($review);
+        Mail::to($specialist->email)->send($reviewCreatedEmail);
+
+        return response()->json($review, 201);
     }
 
     /**

@@ -19,3 +19,8 @@ services:
       - "3306:3306"
     volumes:
       - ./storage/mysql:/var/lib/mysql
+  mailpit:
+    image: axllent/mailpit:v1.6.13
+    ports:
+      - "1025:1025"
+      - "8025:8025"
