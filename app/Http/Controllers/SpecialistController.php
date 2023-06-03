@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpecialistRequest;
-use App\Http\Requests\UpdateSpecialistRequest;
 use App\Models\Specialist;
 
 class SpecialistController extends Controller
@@ -35,7 +34,7 @@ class SpecialistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSpecialistRequest $request, Specialist $specialist)
+    public function update(StoreSpecialistRequest $request, Specialist $specialist)
     {
         $specialist->update($request->safe()->all());
 

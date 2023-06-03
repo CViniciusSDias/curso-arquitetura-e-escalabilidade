@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
 use App\Mail\ReviewCreated;
 use App\Models\Review;
 use App\Models\Specialist;
@@ -45,7 +44,7 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(StoreReviewRequest $request, Review $review)
     {
         $review->update($request->safe()->all());
 
