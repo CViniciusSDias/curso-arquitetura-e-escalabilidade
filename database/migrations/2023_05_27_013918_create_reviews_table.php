@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->uuid('id');
             $table->timestamps();
-            $table->foreignUuid('specialist_id')->constrained();
+            $table->foreignUuid('specialist_id')->constrained()->onDelete('cascade');
             $table->unsignedSmallInteger('rating');
             $table->string('comment')->nullable();
         });
