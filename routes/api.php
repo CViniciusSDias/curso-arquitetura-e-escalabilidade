@@ -30,6 +30,7 @@ Route::post('/login', function (Request $request) {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/specialists/highest_rated/{limit?}', [SpecialistController::class, 'highestRated']);
     Route::apiResource('/specialists', SpecialistController::class);
     Route::apiResource('specialists.reviews', ReviewController::class);
 });
