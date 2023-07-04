@@ -3,6 +3,7 @@
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SpecialistController;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('/specialists', SpecialistController::class);
     Route::apiResource('specialists.reviews', ReviewController::class);
 });
+
+Route::get('/test', fn () => 'Ok')
+    ->withoutMiddleware(ThrottleRequests::class . ':api');
