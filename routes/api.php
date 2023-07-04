@@ -27,10 +27,14 @@ Route::post('/login', function (Request $request) {
         return response()->json('Unauthorized', 401);
     }
 
-    return response('Ok');
+    /** @var \App\Models\User $user */
+    $user = Auth::user();
+    $token = $user->createToken('login');
+
+    return response()->json($token->plainTextToken);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/specialists/highest_rated/{limit?}', [SpecialistController::class, 'highestRated']);
     Route::apiResource('/specialists', SpecialistController::class);
     Route::apiResource('specialists.reviews', ReviewController::class);
