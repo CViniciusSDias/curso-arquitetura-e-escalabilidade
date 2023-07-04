@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Models\Specialist;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SpecialistController extends Controller
@@ -53,14 +54,18 @@ class SpecialistController extends Controller
 
     public function highestRated(int $limit = 10)
     {
-        $specialists = Specialist::select(
+        $specialists = Cache::remember(
+            'highest_rated_specialists',
+            new \DateInterval('PT30S'),
+            fn () => Specialist::select(
                 ['specialists.id', 'specialists.name', DB::raw('avg(reviews.rating) avg_rating')]
             )
-            ->join('reviews', 'reviews.specialist_id', '=', 'specialists.id')
-            ->groupBy(['specialists.id', 'specialists.name'])
-            ->orderBy('avg_rating', 'desc')
-            ->limit($limit)
-            ->get();
+                ->join('reviews', 'reviews.specialist_id', '=', 'specialists.id')
+                ->groupBy(['specialists.id', 'specialists.name'])
+                ->orderBy('avg_rating', 'desc')
+                ->limit($limit)
+                ->get()
+        );
 
         return $specialists;
     }
