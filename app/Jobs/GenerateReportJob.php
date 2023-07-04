@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\ReportGenerated;
 use App\Models\Specialist;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class GenerateReportJob implements ShouldQueue
@@ -39,5 +41,8 @@ class GenerateReportJob implements ShouldQueue
             $content = "{$specialist['id']},{$specialist['name']},{$specialist['avg_rating']}";
             $disk->append($fileName, $content);
         }
+
+        Mail::to($this->userEmail)
+            ->send(new ReportGenerated($disk->url($fileName)));
     }
 }
