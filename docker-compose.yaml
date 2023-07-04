@@ -9,6 +9,15 @@ services:
     working_dir: /app
     depends_on:
       - database
+  app2:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    depends_on:
+      - database
   web:
     image: nginx:1.25
     ports:
@@ -17,6 +26,7 @@ services:
       - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
+      - app2
   database:
     image: mysql:8
     environment:
