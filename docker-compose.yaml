@@ -6,6 +6,7 @@ services:
       dockerfile: infra/Dockerfile
     volumes:
       - ./:/app
+      - ./infra/prod.ini:/usr/local/etc/php/conf.d/prod.ini
     working_dir: /app
     depends_on:
       - database
@@ -15,6 +16,7 @@ services:
       dockerfile: infra/Dockerfile
     volumes:
       - ./:/app
+      - ./infra/prod.ini:/usr/local/etc/php/conf.d/prod.ini
     working_dir: /app
     depends_on:
       - database
