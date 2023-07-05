@@ -24,6 +24,7 @@ services:
       - "8123:80"
     volumes:
       - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./storage/app/public:/app/public/storage
     depends_on:
       - app
       - app2
