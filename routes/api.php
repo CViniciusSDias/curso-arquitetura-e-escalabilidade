@@ -42,3 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/test', fn () => 'Ok')
     ->withoutMiddleware(ThrottleRequests::class . ':api');
+
+Route::get(
+    '/status',
+    fn () => print '<pre>' . print_r(fpm_get_status(), true)
+);
