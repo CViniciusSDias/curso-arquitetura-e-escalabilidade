@@ -11,17 +11,6 @@ services:
     working_dir: /app
     depends_on:
       - database
-  app2:
-    build:
-      context: .
-      dockerfile: infra/Dockerfile
-    volumes:
-      - ./:/app
-      - ./infra/prod.ini:/usr/local/etc/php/conf.d/prod.ini
-      - ./infra/fpm.ini:/usr/local/etc/php-fpm.d/zz-app.conf
-    working_dir: /app
-    depends_on:
-      - database
   web:
     image: nginx:1.25
     ports:
@@ -31,7 +20,6 @@ services:
       - ./storage/app/public:/app/public/storage
     depends_on:
       - app
-      - app2
   database:
     image: mysql:8
     environment:
