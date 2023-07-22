@@ -1,10 +1,12 @@
 FROM openswoole/swoole:php8.2-alpine
 
 RUN docker-php-ext-install pdo_mysql
-RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS} \
-  && pecl install redis \
-  && docker-php-ext-enable redis \
-  && apk del pcre-dev ${PHPIZE_DEPS}
+RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS}
+
+RUN pecl install redis && docker-php-ext-enable redis
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN apk del pcre-dev ${PHPIZE_DEPS}
 
 COPY . /app
 RUN chown -R www-data:www-data /app/storage
