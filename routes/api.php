@@ -40,8 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('specialists.reviews', ReviewController::class);
 });
 
-Route::get('/test', fn () => 'Ok com Octane')
-    ->withoutMiddleware(ThrottleRequests::class . ':api');
+Route::get('/test', fn () => 'Ok com Octane');
 
 Route::get(
     '/status',
